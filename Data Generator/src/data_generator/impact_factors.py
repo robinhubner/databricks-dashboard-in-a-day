@@ -438,3 +438,68 @@ def add_total_impact_features(
         )
 
     return df
+
+def remove_helper_columns(df: DataFrame) -> DataFrame:
+    """
+    Removes helper or intermediate columns used during simulation and feature generation.
+
+    Columns removed (if present):
+      simulated_volume,
+      total_impact_factor,
+      seasonality_impact_factor,
+      covid_impact_factor,
+      organic_mom_growth_factor,
+      day_of_week_impact_factor,
+      holiday_impact_factor,
+      random_impact_factor,
+      covid_progress,
+      days_since_covid_start,
+      season,
+      months_since_start,
+      covid_sales_impact_factor,
+      base_volume,
+      is_weekend,
+      day_name,
+      day_of_week,
+      calendar_week,
+      day,
+      month,
+      year,
+      end_date,
+      start_date,
+      date
+    """
+
+    cols_to_remove = [
+        "simulated_volume",
+        "total_impact_factor",
+        "seasonality_impact_factor",
+        "covid_impact_factor",
+        "organic_mom_growth_factor",
+        "day_of_week_impact_factor",
+        "holiday_impact_factor",
+        "random_impact_factor",
+        "covid_progress",
+        "days_since_covid_start",
+        "season",
+        "months_since_start",
+        "covid_sales_impact_factor",
+        "base_volume",
+        "is_weekend",
+        "day_name",
+        "day_of_week",
+        "calendar_week",
+        "day",
+        "month",
+        "year",
+        "end_date",
+        "start_date",
+        "date",
+    ]
+
+    existing_cols = [c for c in cols_to_remove if c in df.columns]
+
+    if existing_cols:
+        df = df.drop(*existing_cols)
+
+    return df

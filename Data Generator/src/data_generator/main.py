@@ -13,6 +13,7 @@ from impact_factors import (
     add_total_impact_features,
     add_random_noise_features,
     add_seasonality_features,
+    remove_helper_columns,
 )
 from dimensions import add_dim_product_key, add_dim_customer_key, create_dim_product, create_dim_customer, create_dim_store, create_dim_date
 
@@ -128,12 +129,16 @@ def build_store_dataframe(
         # and add_total_impact_features will create "simulated_volume"
     )
 
+    # 9️⃣ Cleanup: remove helper and intermediate columns
+    df = remove_helper_columns(df)
+    print("🧹 Removed helper columns and prepared clean final dataset.")
+
     return df
 
 
 # Base path for your Databricks volume
-VOLUME_BASE_PATH = "dbfs:/Volumes/main/default/synthetic_data_volume"
-spark.sql("CREATE VOLUME if not exists main.default.synthetic_data_volume")
+VOLUME_BASE_PATH = "/Volumes/sunny_bay_roastery/bronze/raw"
+# VOLUME_BASE_PATH = 'file:/Workspace/Users/mail@robin-huebner.com/databricks-data-analyst-in-a-day/Participant Assets/Data'
 
 def save_df(
     df: DataFrame,
@@ -401,13 +406,13 @@ def main():
     all_stores_df = add_dim_product_key(df=all_stores_df)
     all_stores_df = add_dim_customer_key(df=all_stores_df)
 
-    spark.sql("DROP TABLE IF EXISTS main.default.synthetic_data")
-    all_stores_df.write.mode("overwrite").saveAsTable("main.default.synthetic_data")
+    # spark.sql("DROP TABLE IF EXISTS main.default.synthetic_data")
+    # all_stores_df.write.mode("overwrite").saveAsTable("main.default.synthetic_data")
 
     # Create store dimensions
     dim_product  = create_dim_product(spark)
     dim_customer = create_dim_customer(spark)
-    # dim_store    = create_dim_store(spark)
+    dim_store    = create_dim_store(spark)
     dim_date    = create_dim_date(spark)
 
     # ---------------------------------------------------------
@@ -417,7 +422,7 @@ def main():
     dim_dfs = {
         "dim_product": dim_product,
         "dim_customer": dim_customer,
-        # "dim_store": dim_store,
+        "dim_store": dim_store,
         "dim_date": dim_date,
     }
 
@@ -428,13 +433,21 @@ def main():
     # Save fact table as Parquet
     # ---------------------------------------------------------
 
-    save_df(
-        all_stores_df,
-        name="fact_all_stores",
-        fmt="parquet",
-        single_file=False,  # usually fine to keep as multiple files
-        header=False,       # not used for parquet, just to be explicit
-    )
+    # Get all distinct store_keys from the dataset
+    store_keys = [r["store_key"] for r in all_stores_df.select("store_key").distinct().collect()]
+
+    # Loop through each store and save a separate Parquet file (one file per store)
+    for store in store_keys:
+        df_store = all_stores_df.filter(F.col("store_key") == store)
+
+        save_df(
+            df=df_store,
+            name=f"fact_coffee_sales/store_{store}",  # each store gets its own subfolder
+            fmt="parquet",
+            single_file=True,   # ensures one Parquet file per store
+            header=False,       # parquet doesn't use header
+            mode="overwrite"
+        )
 
 if __name__ == "__main__":
     main()
