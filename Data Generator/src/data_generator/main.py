@@ -133,6 +133,7 @@ def build_store_dataframe(
 
 # Base path for your Databricks volume
 VOLUME_BASE_PATH = "/Volumes/sunny_bay_roastery/bronze/raw"
+# VOLUME_BASE_PATH = 'file:/Workspace/Users/mail@robin-huebner.com/databricks-data-analyst-in-a-day/Participant Assets/Data'
 
 def save_df(
     df: DataFrame,
