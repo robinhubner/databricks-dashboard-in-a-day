@@ -195,14 +195,14 @@ def main():
             "store_start_date": "2010-01-01",
             "store_end_date": "2025-12-31",
 
-            "base_volume": 260,                       # high base volume
+            "base_volume": 26,                       # high base volume
             "covid_sales_impact_factor": "high",     # heavy COVID impact (downtown)
             "covid_impact_start_date": "2020-03-01",
             "covid_impact_end_date": "2022-12-31",
 
             "noise_stddev": 0.04,                    # relatively stable
             "noise_seed": 1,
-            "monthly_growth_pct": 0.5,               # mature store, slow growth
+            "monthly_growth_pct": 0.2,               # mature store, slow growth
 
             # day-of-week factors: strong weekday commuter pattern
             "mon_factor": 0.95,
@@ -226,14 +226,14 @@ def main():
             "store_start_date": "2012-06-01",
             "store_end_date": "2025-12-31",
 
-            "base_volume": 180,
+            "base_volume": 18,
             "covid_sales_impact_factor": "medium",
             "covid_impact_start_date": "2020-03-01",
             "covid_impact_end_date": "2022-06-30",
 
             "noise_stddev": 0.05,
             "noise_seed": 2,
-            "monthly_growth_pct": 0.8,               # decent long-term growth
+            "monthly_growth_pct": 0.15,               # decent long-term growth
 
             # weekend brunch + family traffic
             "mon_factor": 0.90,
@@ -257,14 +257,14 @@ def main():
             "store_start_date": "2015-03-01",
             "store_end_date": "2025-12-31",
 
-            "base_volume": 220,
+            "base_volume": 22,
             "covid_sales_impact_factor": "high",
             "covid_impact_start_date": "2020-03-15",
             "covid_impact_end_date": "2022-09-30",
 
             "noise_stddev": 0.06,
             "noise_seed": 3,
-            "monthly_growth_pct": 1.0,               # ~1% per month growth
+            "monthly_growth_pct": 0.01,               # ~1% per month growth
 
             # strong weekend shopping pattern
             "mon_factor": 0.92,
@@ -288,14 +288,14 @@ def main():
             "store_start_date": "2018-09-01",
             "store_end_date": "2025-12-31",
 
-            "base_volume": 210,
+            "base_volume": 21,
             "covid_sales_impact_factor": "very_high",
             "covid_impact_start_date": "2020-03-01",
             "covid_impact_end_date": "2023-03-31",
 
             "noise_stddev": 0.05,
             "noise_seed": 4,
-            "monthly_growth_pct": 1.3,               # strong early growth pre-COVID
+            "monthly_growth_pct": 0.4,               # strong early growth pre-COVID
 
             # very strong weekday / commuter, weak weekends
             "mon_factor": 1.00,
@@ -319,14 +319,14 @@ def main():
             "store_start_date": "2021-01-15",
             "store_end_date": "2025-12-31",
 
-            "base_volume": 140,
+            "base_volume": 14,
             "covid_sales_impact_factor": "low",
             "covid_impact_start_date": "2021-01-15",  # opens during pandemic
             "covid_impact_end_date": "2023-12-31",
 
             "noise_stddev": 0.07,                    # more volatile early-stage store
             "noise_seed": 5,
-            "monthly_growth_pct": 1.6,               # aggressive growth
+            "monthly_growth_pct": 0.5,               # aggressive growth
 
             # very strong weekend + evening social traffic
             "mon_factor": 0.90,
@@ -339,19 +339,19 @@ def main():
 
             # covid curve tuning: smaller dip, fairly quick recovery (opens already in COVID world)
             "covid_start": "2021-01-15",
-            "covid_drop_depth": 0.60,
-            "covid_drop_sigma": 80.0,
+            "covid_drop_depth": 0.90,
+            "covid_drop_sigma": 130.0,
             "covid_recovery_rate": 0.0045,
-            "covid_recovery_start": "2022-06-01",
+            "covid_recovery_start": "2023-06-01",
         },
        {
         # Only shop / delivery-first concept, opened in COVID, benefits from it
         "store_key": 6,
-        "store_start_date": "2020-01-01",
+        "store_start_date": "2021-01-01",
         "store_end_date": "2025-12-31",
 
         # Slightly lower base volume so it doesn't feel huge right away
-        "base_volume": 110,
+        "base_volume": 11,
         "covid_sales_impact_factor": "low",
         "covid_impact_start_date": "2020-05-01",
         "covid_impact_end_date": "2023-01-01",
@@ -442,17 +442,15 @@ def main():
     store_keys = [r["store_key"] for r in all_stores_df.select("store_key").distinct().collect()]
 
     # Loop through each store and save a separate Parquet file (one file per store)
-    for store in store_keys:
-        df_store = all_stores_df.filter(F.col("store_key") == store)
-
-        save_df(
-            df=df_store,
-            name=f"fact_coffee_sales/store_{store}",  # each store gets its own subfolder
-            fmt="parquet",
-            single_file=True,   # ensures one Parquet file per store
-            header=False,       # parquet doesn't use header
-            mode="overwrite"
-        )
-
+    (
+        all_stores_df
+        .repartition("store_key")
+        .write
+        .mode("overwrite")
+        .partitionBy("store_key")
+        .parquet(f"{VOLUME_BASE_PATH}/fact_coffee_sales")
+    )
+    print("✅ Fact write complete: saved partitioned Parquet files to "
+        f"{VOLUME_BASE_PATH}/fact_coffee_sales")
 if __name__ == "__main__":
     main()
