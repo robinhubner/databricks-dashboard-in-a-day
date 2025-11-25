@@ -9,5 +9,47 @@ By the end of this lab, you will:
     - formating instructions and synomyns
 - Publish the metric view to make it available in Unity Catalog to make it accessable by subsequent features and tools such as Databricks Dashboards.
 
+## Introduction
+
+**What Are Metric Views?**
+
+Metric views are reusable semantic models in Databricks that define business logic for KPIs, calculations, joins, and dimensions in a standardized way.
+
+They allow consistent reporting, simplify complex SQL logic, and centralize metric definitions for dashboards, notebooks, and BI tools.​
+
+**Why Use Metric Views?**
+
+- Ensure “one version of the truth” by standardizing metrics and calculations organization-wide.
+
+- Enable flexible exploration of metrics across any dimension (e.g., sales by product, region, or time) without rebuilding SQL queries.
+
+- Simplify maintenance—updates to metrics or logic are immediately available across all downstream reports and tools.
+
+- Add business context via synonyms, comments, and formatting for user-friendly analytics.​
+
+
 ## Instructions
 
+1. Define your source: Identify the fact table ("sunny_bay_roastery.gold.fact_coffee_sales"). Make sure you have the name captured correctly. It serves as our base table and is typically the center of our star/snowflake schema.
+
+2. Add joins: Specify dimension tables (customer, product, store, date) and join keys to enrich the fact table.
+
+3. Describe dimensions: List business attributes (e.g., product name, store city, customer loyalty segment) to slice and filter your data.
+
+4. Define measures: Include KPIs (e.g., total orders, gross revenue, profit) using aggregation and calculation logic.
+
+5. Use formatting and synonyms: Enhance readability and accessibility for business users.
+
+6. (optional) Add metadata: Write clear comments and business descriptions for every field and measure.
+
+Publish to Unity Catalog: Make the metric view discoverable and available to teams and tools, including Databricks Dashboards and downstream analytics.​
+
+4. Example YAML
+See your [provided YAML](./Artifacts/metric_view.yaml) template for reference. This structure includes source, joins, detailed dimensions, measures with formulas, business-friendly display names, and formatting.
+
+## What Happens Next?
+After publishing, users will be able to directly query business metrics without writing SQL joins or recalculating KPIs.
+
+Any updates to the metric view automatically propagate, keeping analytics up to date and reliable throughout the organization.​
+
+This approach empowers business users with governed, understandable, and reusable metrics in Databricks, transforming complex raw data into actionable business insights.
