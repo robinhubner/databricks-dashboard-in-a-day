@@ -30,22 +30,24 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 
 ## Instructions
 
-1. Define your source: Identify the fact table ("sunny_bay_roastery.gold.fact_coffee_sales"). Make sure you have the name captured correctly. It serves as our base table and is typically the center of our star/snowflake schema.
+1. Navigate to the gold schema using the Catalog Explorer and create a new Metric View by selecting it after clicking the New Button. Name it ``sm_fact_coffee_sales``. ![alt text](CreateMetricView.png)
 
-2. Add joins: Specify dimension tables (customer, product, store, date) and join keys to enrich the fact table.
+2. Review [provided YAML](./Artifacts/metric_view.yaml) template for reference. This structure includes source, joins, detailed dimensions, measures with formulas, business-friendly display names, and formatting.
 
-3. Describe dimensions: List business attributes (e.g., product name, store city, customer loyalty segment) to slice and filter your data.
+3. Define your source: Identify the fact table ("sunny_bay_roastery.gold.fact_coffee_sales"). Make sure you have the name captured correctly. It serves as our base table and is typically the center of our star/snowflake schema.
 
-4. Define measures: Include KPIs (e.g., total orders, gross revenue, profit) using aggregation and calculation logic.
+4. Add joins: Specify dimension tables (customer, product, store, date) and join keys to enrich the fact table.
 
-5. Use formatting and synonyms: Enhance readability and accessibility for business users.
+5. Describe dimensions: List business attributes (e.g., product name, store city, customer loyalty segment) to slice and filter your data.
 
-6. (optional) Add metadata: Write clear comments and business descriptions for every field and measure.
+6. Define measures: Include KPIs (e.g., total orders, gross revenue, profit) using aggregation and calculation logic.
 
-Publish to Unity Catalog: Make the metric view discoverable and available to teams and tools, including Databricks Dashboards and downstream analytics.​
+7. (Optional) Use formatting and synonyms: Enhance readability and accessibility for business users.
 
-4. Example YAML
-See your [provided YAML](./Artifacts/metric_view.yaml) template for reference. This structure includes source, joins, detailed dimensions, measures with formulas, business-friendly display names, and formatting.
+
+You can now publish to Unity Catalog by saving the YAML. This makes the metric view discoverable and available to teams and tools, including Databricks Dashboards and downstream analytics, provided they have access enherited from the schema. 
+
+
 
 ## What Happens Next?
 After publishing, users will be able to directly query business metrics without writing SQL joins or recalculating KPIs.
