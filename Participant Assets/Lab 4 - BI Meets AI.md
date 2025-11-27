@@ -25,15 +25,28 @@ Before you start, please verify:
 - The **Sunny Bay Coffee Sales metric view** from Lab 2 is created and published in Unity Catalog.  
 - A **SQL warehouse** (Pro or serverless) is available and selectable for Genie queries.  
 
-**Create the “Sunny Bay Sales Genie” Space**
+**Step 1: Create the “Sunny Bay Sales Genie” Space**
 
 1. In the Databricks workspace, open **Genie** from the left navigation.  
-2. Click **New space**.  
-3. Fill in the basic information:
-   - **Name:** `Sunny Bay Sales Genie`  
+2. Click **New space**.  ![](./Artifacts/Genie_CreateGenieSpace.png)
+3. Under **Data sources** (or equivalent section), **add the Sunny Bay Coffee metric view** that you defined in Lab 2.
+![](./Artifacts/Genie_SetDataSource.png)
+
+4. Once the Genie space is created, fill in the basic information under "Configure" -> "Settings" :
+   - **TItle:** `Sunny Bay Sales Genie`  
    - **Description:**   “Ask questions about Sunny Bay Roastery coffee sales, customers, products, and stores using governed metrics from the Sunny Bay metric view.”  
-4. Under **Data sources** (or equivalent section), **add the Sunny Bay Coffee metric view** that you defined in Lab 2.  
+   ![](./Artifacts/Genie_BasicSettings.png)
+
+
 5. Select a **Pro or serverless SQL warehouse** to run queries.  
 6. Click **Create** (or **Save**) to provision the Genie space.  
 
+**Step 2: Optimize the Space for High Quality (Knowledge & Semantics)**
+
+1. In the Genie space settings:
+- Configure knowledge / context text (“Instructions” box):
+    - Describe the business context: Sunny Bay Roastery, coffee sales, currencies, time grain, etc. 
+    - Clarify metric meanings
+    - Specify standard aggregations and filters (e.g., “Prefer last 30 days when no date is specified”).
+    ![](./Artifacts/Genie_Instructions.png)
 

@@ -30,7 +30,7 @@ They allow consistent reporting, simplify complex SQL logic, and centralize metr
 
 ## Instructions
 
-1. Navigate to the gold schema using the Catalog Explorer and create a new Metric View by selecting it after clicking the New Button. Name it ``sm_fact_coffee_sales``. ![alt text](CreateMetricView.png)
+1. Navigate to the gold schema using the Catalog Explorer and create a new Metric View by selecting it after clicking the New Button. Name it ``sm_fact_coffee_sales``. ![alt text](./Artifacts/MetricView_CreateMetricView.png)
 
 2. Review [provided YAML](./Artifacts/metric_view.yaml) template for reference. This structure includes source, joins, detailed dimensions, measures with formulas, business-friendly display names, and formatting.
 
