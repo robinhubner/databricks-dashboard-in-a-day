@@ -15,6 +15,6 @@ targets:
     mode: development
     default: true
     workspace:
-      host: https://fe-vm-vdm-classic-feip-219.cloud.databricks.com/
+      host: https://e2-demo-field-eng.cloud.databricks.com/
     variables:
-      catalog: sunny_bay_roastery
+      catalog: sunny_bay

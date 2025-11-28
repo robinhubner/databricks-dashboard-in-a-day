@@ -1,9 +1,9 @@
-# The main pipeline for dab_data_engineering
-
 resources:
   pipelines:
-    sunny_bay_roastery:
+    sunny_bay_roastery_pipeline:
+      name: sunny_bay_roastery
       catalog: ${var.catalog}
+      schema: bronze
       serverless: true
       root_path: "."
 

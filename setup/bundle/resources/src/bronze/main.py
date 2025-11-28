@@ -4,7 +4,6 @@ from pyspark.sql import DataFrame, SparkSession, functions as F
 import argparse
 
 from data_generation import date_generation, feature_generation
-from environment_setup import setup_catalog_and_schemas
 from impact_factors import (
     add_holiday_features,
     add_day_of_week_features,
@@ -103,9 +102,7 @@ def save_df(df: DataFrame, name: str, path: str, fmt: str = "csv", single_file: 
 def main(catalog: str):
     spark = SparkSession.builder.getOrCreate()
 
-    setup_catalog_and_schemas(catalog)
-    volume = "raw"
-    volume_path = f"/Volumes/{catalog}/bronze/{volume}"
+    volume_path = f"/Volumes/{catalog}/bronze/raw"
 
     base_dates_df = date_generation(spark, start_date="2010-01-01", end_date="2025-12-31")
 
