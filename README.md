@@ -31,9 +31,9 @@ Sunny Bay uses **Databricks** for analytics; you will too.
 
 ---
 
-## Step 3 – Clone this repository and open Lab 0
+## Step 3 – Clone This Repoy & Use Lab 0
 
-Clone the GitHub repository into your Databricks workspace.
+**Clone the GitHub repository into your Databricks workspace**.
 
 ### ✅ Instructions
 1. In Databricks, go to the sidebar and select **Workspace**.
