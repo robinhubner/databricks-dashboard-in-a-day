@@ -11,17 +11,15 @@ resources:
         - task_key: init_bronze_data
           environment_key: default
           notebook_task:
-            notebook_path: ./bronze/main
+            notebook_path: ../src/bronze/main.ipynb
             base_parameters:
-            - catalog: ${var.catalog}
+              catalog: ${var.catalog}
 
         - task_key: run_pipeline
           depends_on:
             - task_key: init_bronze_data
           pipeline_task:
             pipeline_id: ${resources.pipelines.sunny_bay_roastery_pipeline.id}
-            configuration:
-            - catalog: ${var.catalog}
 
       environments:
         - environment_key: default

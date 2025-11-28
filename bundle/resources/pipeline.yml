@@ -6,6 +6,8 @@ resources:
       schema: bronze
       serverless: true
       root_path: "."
+      configuration:
+        catalog: ${var.catalog}
       libraries:
         - glob:
-            include: transformations/**
+            include: ../src/transformations/**
