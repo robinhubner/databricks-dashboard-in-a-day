@@ -1,24 +1,6 @@
 # Data Analyst in a Day
 
-## Step 1 – Create a GitHub Account
-
-GitHub is your **source of truth** for workshop materials and notebooks.
-
-### ✅ Instructions
-1. Go to [https://github.com/join](https://github.com/join).
-2. Create a **free account** (use your professional or learning email).
-3. Verify your email and log in.
-4. (Optional) Install **GitHub Desktop** for easy file sync.
-
-### 💡 Why it matters
-Version control lets you:
-- Track code changes.
-- Sync notebooks and Markdown files with your team.
-- Revisit or share past versions.
-
----
-
-## Step 2 – Create a Databricks Free Account
+## Step 1 – Create a Databricks Free Account
 
 Sunny Bay uses **Databricks** for analytics; you will too.
 
@@ -31,7 +13,7 @@ Sunny Bay uses **Databricks** for analytics; you will too.
 
 ---
 
-## Step 3 – Clone This Repo & Start from Lab 0
+## Step 2 – Clone This Repo & Start from Lab 0
 
 **Clone the GitHub repository into your Databricks workspace**.
 
@@ -43,3 +25,9 @@ Sunny Bay uses **Databricks** for analytics; you will too.
 5. Select **GitHub** as provider.
 6. Click **Create**.
 7. Expand the repo folder and open the `Lab 0` notebook.
+
+### 💡 Why it matters
+Version control lets you:
+- Track code changes.
+- Sync notebooks and Markdown files with your team.
+- Revisit or share past versions.
